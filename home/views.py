@@ -14,11 +14,19 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.edit import CreateView, UpdateView
-
 from survey.models import Questionnaire
-
+from django.shortcuts import render
+from django.views import View
+from .forms import ManagerSignupForm, ManagerLoginForm, UserProfileForm
+from django.contrib.auth import login
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from django.urls import reverse_lazy
+from django.contrib import messages
+from django.contrib.auth import get_user_model
 from .forms import ManagerLoginForm, ManagerSignupForm, UserProfileForm
 
+
+User = get_user_model()
 
 class SignupView(CreateView):
     form_class = ManagerSignupForm
@@ -74,9 +82,12 @@ class ProfileView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
+        messages.error(self.request, 'There was an error updating your profile. Please try again.')
+
         messages.error(
             self.request, "There was an error updating your profile. Please try again."
         )
+
         return super().form_invalid(form)
 
 
