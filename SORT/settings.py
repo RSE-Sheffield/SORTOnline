@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     # apps created by FA:
     "home",
     "survey",
-    "invites",
 ]
 
 MIDDLEWARE = [
